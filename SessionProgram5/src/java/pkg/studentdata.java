@@ -6,68 +6,53 @@ package pkg;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Pratham
  */
+public class studentdata extends HttpServlet {
 
-
-
-public class MyServlet extends HttpServlet {
-//
-//    /**
-//     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-//     * methods.
-//     *
-//     * @param request servlet request
-//     * @param response servlet response
-//     * @throws ServletException if a servlet-specific error occurs
-//     * @throws IOException if an I/O error occurs
-//     */
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println("<h1> Hello from Service method");
-            String uname = request.getParameter("username");
-            String pass = request.getParameter("password");
-            out.println(uname);
-            out.println(pass);
-
-            try {
-                String loadDriver = "com.mysql.cj.jdbc.Driver";
-                String dbUrl = "jdbc:mysql://localhost:3306/demo";
-                String dbUSERNAME = "root";
-                String dbPASSWORD = "";
-
-                Class.forName(loadDriver);
-                Connection con = null;
-                con = DriverManager.getConnection(dbUrl, dbUSERNAME, dbPASSWORD);
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM `person` WHERE username='" + uname + "' and password = '" + pass + "'");
-                if (rs.next()) {
-                    out.println("Login Sucessful");
-                } else {
-                    out.println("Invalid Username and Password");
-                }
-
-                con.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet studentdata</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            String name = request.getParameter("name");
+            String id = request.getParameter("id");
+            String department = request.getParameter("department");
+            
+            HttpSession session = request.getSession();
+            session.setAttribute("name", name);
+            session.setAttribute("id", id);
+            session.setAttribute("department", department);
+            response.sendRedirect("marks.jsp");
+            
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
-//    @Override
-//    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        
-//    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

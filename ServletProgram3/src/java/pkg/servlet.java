@@ -61,7 +61,7 @@ public class servlet extends HttpServlet {
                String sqlquery = "select * from gen_form";
                ResultSet re = stm.executeQuery(sqlquery);
                out.println("<TABLE border = 2><tr><th>ID</th><th>Name</th><th>Email</th><th>DOB</th><th>Conatact</th></tr>");
-               if (re.next()) {
+               while (re.next()) {
                    out.println("<tr><td>"+re.getInt("id")+"</td>");
                    out.println("<td>"+re.getString("name")+"</td>");
                    out.println("<td>"+re.getString("email")+"</td>");
