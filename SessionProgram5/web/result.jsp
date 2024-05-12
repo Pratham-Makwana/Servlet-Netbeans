@@ -44,7 +44,7 @@
                     <% for (int i = 0; i < 6; i++) {%>
 
             <tr>
-                <td>Studect: <%= i + 1%></td>
+                <td>Subject: <%= i + 1%></td>
                 <td><%= marks[i]%></td>
                 <td><%=grade[i]%></td>
             </tr>

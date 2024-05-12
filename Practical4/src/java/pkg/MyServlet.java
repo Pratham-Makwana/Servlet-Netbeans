@@ -30,81 +30,36 @@ public class MyServlet extends HttpServlet {
 //     * @throws ServletException if a servlet-specific error occurs
 //     * @throws IOException if an I/O error occurs
 //     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<h1> Hello from Service method");
-            String uname = request.getParameter("username");
-            String pass = request.getParameter("password");
-            out.println(uname);
-            out.println(pass);
+        response.setContentType("Text/HTML");
+        PrintWriter pw = response.getWriter();
+        String name = request.getParameter("nm");
+        String pswd = request.getParameter("ps");
 
-            try {
-                String loadDriver = "com.mysql.cj.jdbc.Driver";
-                String dbUrl = "jdbc:mysql://localhost:3306/demo";
-                String dbUSERNAME = "root";
-                String dbPASSWORD = "";
+        String url = "jdbc:mysql://localhost:3306/ajdbc";
+        String username = "root";
+        String password = "";
 
-                Class.forName(loadDriver);
-                Connection con = null;
-                con = DriverManager.getConnection(dbUrl, dbUSERNAME, dbPASSWORD);
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM `person` WHERE username='" + uname + "' and password = '" + pass + "'");
-                if (rs.next()) {
-                    out.println("Login Sucessful");
-                } else {
-                    out.println("Invalid Username and Password");
-                }
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(url, username, password);
+            String query = "select * from tbl_user where username = ? and password = ?";
+            PreparedStatement stm = con.prepareStatement(query);
+            stm.setString(1, name);
+            stm.setString(2, pswd);
+            ResultSet rs = stm.executeQuery();
+            pw.println((rs.next()) ? "<H2>Hello" + name + "</H2>" : "<H2>Invalid Crendentials </H2>");
 
-                con.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            pw.println("<H2>Error...</H2>");
         }
     }
 
 //    @Override
 //    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        
-//    }
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+//    
 
 }
