@@ -1,6 +1,6 @@
 <%-- 
     Document   : home
-    Created on : 27-Mar-2024, 9:19:02 am
+    Created on : 13-May-2024, 7:59:17 am
     Author     : Pratham
 --%>
 
@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-         <% String un =(String)session.getAttribute("un"); %>
-        <h1>welcome <%= un %></h1>
+        <% String un = (String) session.getAttribute("un"); %>
+        <h1> Welcome <%= un %></h1>
     </body>
 </html>
